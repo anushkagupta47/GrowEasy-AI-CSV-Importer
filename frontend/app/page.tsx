@@ -79,7 +79,7 @@ export default function Home() {
     setIsProcessing(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/import-leads", {
+      const response = await fetch("https://groweasy-ai-csv-importer-d5l6.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ records: previewData }),
