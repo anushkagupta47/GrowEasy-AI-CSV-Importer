@@ -1,91 +1,132 @@
-
-
 <div align="center">
+
+# 🚀 GrowEasy AI CSV Importer
+
+### Intelligent AI-Powered CSV Mapping & CRM Data Import Pipeline
+
+An intelligent AI-powered application that automatically maps, extracts, validates, and transforms raw CSV files into structured CRM records using **Google Gemini AI**.
+
+</div>
 
 ---
 
 ## 📖 Project Overview
 
-Data ingestion is one of the most critical stages of any CRM workflow. **GrowEasy AI CSV Importer** leverages **Google Gemini AI** to intelligently understand, map, and transform unstructured CSV files into standardized CRM records with minimal manual effort.
+Data ingestion is one of the most challenging stages of any CRM workflow. **GrowEasy AI CSV Importer** simplifies this process by leveraging **Google Gemini AI** to intelligently understand, map, and transform unstructured CSV files into standardized CRM records with minimal manual effort.
 
-Designed for reliability and scalability, the application combines AI-powered data extraction, strict backend validation, enterprise-grade batch processing, and a resilient frontend architecture to deliver a seamless user experience, even during API rate limits or temporary network interruptions.
+Designed with scalability and reliability in mind, the application combines AI-powered data extraction, strict backend validation, enterprise-grade batch processing, and a resilient frontend architecture to ensure uninterrupted performance, even during API rate limits or temporary network interruptions.
 
 ---
 
 ## 📸 Application Interface
 
-### 📤 CSV Upload & Intelligent Data Preview
+### 📤 CSV Upload & Data Preview
 
-*Figure 1. Upload CSV datasets through an intuitive drag-and-drop interface. The application previews raw records and prepares them for AI-powered CRM field mapping.*
+*Figure 1. Upload a CSV file through the drag-and-drop interface and preview the extracted records before initiating AI-powered CRM field mapping.*
+
+<div align="center">
+
+<img src="./Result/testing%20data%20impoted.jpg" alt="CSV Upload & Preview" width="900">
+
+</div>
+
+<br>
+
+### 🤖 AI Processing Pipeline
+
+*Figure 2. During processing, Google Gemini AI analyzes the uploaded dataset, understands the column structure, and maps records into standardized CRM fields.*
 
 <div align="center">
 
----
+<img src="./Result/testing%20data%20ai%20working.jpg" alt="AI Processing" width="900">
 
-### 📊 AI-Mapped CRM Results Dashboard
+</div>
 
-*Figure 2. The processed results dashboard presents AI-generated CRM records with standardized fields, automated validation, lead ownership, and structured output ready for CRM integration.*
+<br>
+
+### 📊 Structured CRM Output
+
+*Figure 3. The final dashboard displays validated CRM records with import status, lead classification, contact information, and AI-generated CRM metadata ready for downstream workflows.*
 
 <div align="center">
+
+<img src="./Result/tested%20data%20results.jpg" alt="Structured CRM Output" width="900">
+
+</div>
 
 ---
 
 ## ✨ Key Features & Architecture
 
-### 🧠 Contextual AI Mapping
+### 🧠 Intelligent AI Column Mapping
 
-Utilizes **Google Gemini AI** to intelligently infer data types and automatically map arbitrary CSV columns (for example, **"Contact No." → `mobile_without_country_code`**) into predefined CRM fields.
+Google Gemini AI automatically identifies unknown CSV columns and accurately maps them to predefined CRM fields.
+
+Example:
+
+```text
+Contact No.
+        ↓
+mobile_without_country_code
+```
 
 ---
 
 ### ⚙️ Enterprise Batch Processing
 
-Large CSV datasets are intelligently divided into optimized batches, preventing AI hallucinations, syntax inconsistencies, timeout issues, and API rate-limit failures while ensuring reliable and scalable processing.
+Large CSV datasets are intelligently divided into optimized batches to prevent:
+
+- AI hallucinations
+- Syntax inconsistencies
+- Timeout errors
+- API rate-limit failures
+
+This enables reliable and scalable processing for large datasets.
 
 ---
 
-### 🛡️ Strict Data Validation
+### 🛡️ Strict CRM Validation
 
-Every extracted record passes through backend validation before being accepted into the final dataset.
+Every extracted record undergoes backend validation before being accepted.
 
-Records missing critical CRM information such as:
+Records missing essential information such as:
 
 - Name
 - Email
 - Phone Number
 
-are automatically discarded to ensure high-quality CRM data.
+are automatically removed to maintain high-quality CRM data.
 
 ---
 
 ### ⚡ Resilient Frontend Architecture
 
-A built-in client-side fallback mechanism ensures uninterrupted operation. Whenever the backend or Gemini API becomes temporarily unavailable, the application gracefully switches to local processing, providing a smooth and uninterrupted user experience.
+A built-in fallback mechanism guarantees uninterrupted operation. If the backend or Gemini API becomes temporarily unavailable, the application gracefully switches to local processing, ensuring a seamless user experience.
 
 ---
 
-### 🎨 Premium User Experience
+### 🎨 Modern User Experience
 
-Built using **Next.js**, **TypeScript**, and **Tailwind CSS**, the application provides:
+Built using **Next.js**, **TypeScript**, and **Tailwind CSS**, the application offers:
 
-- Drag-and-drop CSV upload
-- Intelligent data preview
-- AI-powered CRM field mapping
-- Real-time processing indicators
-- Responsive data tables
-- Modern user interface
-- Dark mode support
+- 📂 Drag-and-drop CSV upload
+- 👀 Intelligent data preview
+- 🤖 AI-powered CRM field mapping
+- ⚡ Real-time processing indicators
+- 📊 Responsive data tables
+- 🌙 Dark mode support
+- 💻 Clean and modern interface
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Category             | Technologies                                        |
-| :------------------- | :-------------------------------------------------- |
-| **Frontend**   | Next.js, React, TypeScript, Tailwind CSS, PapaParse |
-| **Backend**    | Node.js, Express.js, CORS, Dotenv                   |
-| **AI Engine**  | Google Gemini API (`@google/generative-ai`)       |
-| **Deployment** | Vercel (Frontend), Render (Backend)                 |
+| Category | Technologies |
+| :-------- | :----------- |
+| **Frontend** | Next.js • React • TypeScript • Tailwind CSS • PapaParse |
+| **Backend** | Node.js • Express.js • CORS • Dotenv |
+| **AI Engine** | Google Gemini API (`@google/generative-ai`) |
+| **Deployment** | Vercel (Frontend) • Render (Backend) |
 
 ---
 
@@ -93,7 +134,7 @@ Built using **Next.js**, **TypeScript**, and **Tailwind CSS**, the application p
 
 ### Prerequisites
 
-- Node.js (v18 or later)
+- Node.js v18 or later
 - Google Gemini API Key from Google AI Studio
 
 ---
@@ -102,6 +143,7 @@ Built using **Next.js**, **TypeScript**, and **Tailwind CSS**, the application p
 
 ```bash
 git clone https://github.com/anushkagupta47/GrowEasy-AI-CSV-Importer.git
+
 cd GrowEasy-AI-CSV-Importer
 ```
 
@@ -111,13 +153,15 @@ cd GrowEasy-AI-CSV-Importer
 
 ```bash
 cd Backend
+
 npm install
 ```
 
-Create a `.env` file inside the **Backend** directory.
+Create a `.env` file.
 
 ```env
 GEMINI_API_KEY=your_actual_api_key_here
+
 PORT=5000
 ```
 
@@ -131,15 +175,17 @@ node server.js
 
 ### 3️⃣ Configure & Run Frontend
 
-Open a new terminal.
+Open another terminal.
 
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
 ```
 
-Open your browser and navigate to:
+Visit:
 
 ```text
 http://localhost:3000
@@ -147,7 +193,7 @@ http://localhost:3000
 
 ---
 
-## 👨‍💻 Candidate Profile
+## 👨‍💻 Developer
 
 ### **Anushka Gupta**
 
@@ -155,16 +201,24 @@ http://localhost:3000
 
 Founder & Ex-Chairperson, IEEE Student Branch, BBDU
 
-I am an AI & Machine Learning Engineer specializing in intelligent automation, Generative AI applications, and scalable software systems. I recently graduated with a Bachelor of Engineering in Computer Science (Artificial Intelligence) with an 7.58 CGPA.
+I am an AI & Machine Learning Engineer specializing in intelligent automation, Generative AI applications, and scalable software systems. This project demonstrates my experience in integrating Large Language Models into production-ready business workflows, building enterprise-grade validation pipelines, and designing intelligent CRM automation systems.
 
-My work focuses on building practical AI-driven solutions that improve business workflows and data automation. Beyond engineering, I have been recognized as a **Samsung Fellowship (ISWDP) Fellow** and a **National Finalist of the Gandhi Fellowship** for leadership and social impact.
+---
 
-- 📄 **Resume:** https://drive.google.com/file/d/17JVz2adsUNEVklx8sCxURj67Ku75vLOQ/view?usp=sharing
-- 📍 **Location:** Pune, Maharashtra, India
-- 📧 **Email:** anushkag472004@gmail.com
-- 💼 **LinkedIn:** https://www.linkedin.com/in/anushkagupta47
-- 🐙 **GitHub:** https://github.com/anushkagupta47
+## 📬 Connect With Me
+
+| Platform | Link |
+| :-------- | :--- |
+| 📄 **Resume** | https://drive.google.com/file/d/17JVz2adsUNEVklx8sCxURj67Ku75vLOQ/view?usp=sharing |
+| 💼 **LinkedIn** | https://www.linkedin.com/in/anushkagupta47 |
+| 🐙 **GitHub** | https://github.com/anushkagupta47 |
+| 📧 **Email** | anushkag472004@gmail.com |
+| 📍 **Location** | Pune, Maharashtra, India |
 
 ---
 
 <div align="center">
+
+### ⭐ Built with ❤️ for the GrowEasy Evaluation
+
+</div>
