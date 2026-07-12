@@ -73,14 +73,12 @@ export default function Home() {
     }
   };
 
-  // Trigger Backend AI Processing
-  // Trigger Backend AI Processing
+  // Trigger Backend AI Processing (Strict API Version)
   const handleConfirmImport = async () => {
     if (previewData.length === 0) return;
     setIsProcessing(true);
 
     try {
-      // 1. TRY THE REAL API FIRST
       const response = await fetch("https://groweasy-ai-csv-importer-d938.onrender.com/api/import-leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -89,54 +87,22 @@ export default function Home() {
 
       const data = await response.json();
 
-      if (!response.ok || data.error) throw new Error(data.error || "Server responded with an error.");
+      if (!response.ok || data.error) {
+        throw new Error(data.error || "Server responded with an error.");
+      }
       
-      // If successful, set the real data!
+      // If successful, set the real AI-processed data!
       setResults(data);
 
     } catch (error: any) {
-      // 2. IF API FAILS, SILENTLY FALL BACK TO MOCK DATA
-      console.warn("Backend fetch failed, activating smart frontend fallback logic...", error);
-      
-      // Simulate AI processing delay for 2 seconds to show off your nice UI loader
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Create mock data that perfectly matches your UI's expected JSON structure
-      const fallbackMappedData = {
-        metrics: {
-          totalRecords: previewData.length,
-          totalImported: previewData.length,
-          totalSkipped: 0
-        },
-        records: previewData.map((row: any) => {
-          const isSkipped = !row.name && !row.email && !row.mobile_without_country_code;
-          return {
-            skipped: isSkipped,
-            data: {
-              name: row.name || "Unknown",
-              email: row.email || "",
-              mobile_without_country_code: row.mobile_without_country_code || row.phone || "",
-              country_code: row.country_code || "+91",
-              crm_status: isSkipped ? null : "GOOD_LEAD_FOLLOW_UP", 
-              crm_note: "Imported via smart frontend fallback parser.",
-              company: row.company || "Independent"
-            }
-          };
-        })
-      };
-
-      // Recalculate metrics based on skipped logic
-      const imported = fallbackMappedData.records.filter((r: any) => !r.skipped).length;
-      fallbackMappedData.metrics.totalImported = imported;
-      fallbackMappedData.metrics.totalSkipped = previewData.length - imported;
-
-      // Render the fallback data to the screen
-      setResults(fallbackMappedData);
+      console.error("Import failed:", error);
+      alert(`Backend Error: ${error.message}\nCheck your backend terminal for details.`);
+      setResults(null);
     } finally {
       setIsProcessing(false);
     }
   };
-
+ 
   // Dynamic CRM Status Badge Generator (Optimized for Light & Dark Mode)
   const getStatusBadge = (status: string) => {
     switch (status) {
