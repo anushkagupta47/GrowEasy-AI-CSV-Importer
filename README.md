@@ -23,7 +23,7 @@ Designed for reliability and scalability, the application combines AI-powered da
 *Figure 1. Upload CSV datasets through an intuitive drag-and-drop interface. The application previews raw records and prepares them for AI-powered CRM field mapping.*
 
 <div align="center">
-  <img src="result/csv-upload.jpg" alt="CSV Upload Dashboard" width="900"/>
+  <img src="Result/csv-upload.jpg" alt="CSV Upload Dashboard" width="900"/>
 </div>
 
 ---
@@ -33,7 +33,7 @@ Designed for reliability and scalability, the application combines AI-powered da
 *Figure 2. The processed results dashboard presents AI-generated CRM records with standardized fields, automated validation, lead ownership, and structured output ready for CRM integration.*
 
 <div align="center">
-  <img src="result/crm-results.jpg" alt="AI CRM Results Dashboard" width="900"/>
+  <img src="Result/crm-results.jpg" alt="AI CRM Results Dashboard" width="900"/>
 </div>
 
 ---
