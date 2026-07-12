@@ -63,44 +63,82 @@ app.post('/api/import-leads', async (req, res) => {
       return res.status(400).json({ error: 'Invalid data format. Expected an array of records.' });
     }
 
-    // Using the dynamic model from your .env file
     const model = genAI.getGenerativeModel({ 
       model: process.env.GEMINI_MODEL || "gemini-3.5-flash",
       generationConfig: { responseMimeType: "application/json" }
     });
 
-    const prompt = `
-    System Rules: ${SYSTEM_INSTRUCTION}
-    
-    Analyze and map ALL of these raw input rows into the target JSON structure:
-    ${JSON.stringify(records)}
-    `;
+    // 1. Define the Batch Size (The "Enterprise" Chunking Method)
+    const BATCH_SIZE = 5;
+    let finalProcessedRecords = [];
 
-    console.log(`Sending ${records.length} real rows to Gemini using ${process.env.GEMINI_MODEL}...`);
-    
-    // Process everything in ONE batch
-    const result = await model.generateContent(prompt);
-    let responseText = result.response.text();
-    
-    // Safety cleaner just in case the AI adds markdown ticks
-    responseText = responseText.replace(/```json/gi, '').replace(/```/gi, '').trim();
-    const processedRecords = JSON.parse(responseText);
+    console.log(`Starting enterprise batch processing for ${records.length} total rows...`);
 
-    const totalImported = processedRecords.filter(r => !r.skipped).length;
-    const totalSkipped = processedRecords.filter(r => r.skipped).length;
+    // 2. Loop through the records in manageable chunks
+    for (let i = 0; i < records.length; i += BATCH_SIZE) {
+      const batch = records.slice(i, i + BATCH_SIZE);
+      const currentBatchNumber = Math.floor(i / BATCH_SIZE) + 1;
+      const totalBatches = Math.ceil(records.length / BATCH_SIZE);
+      
+      console.log(`Sending batch ${currentBatchNumber} of ${totalBatches} to Gemini...`);
 
+      const prompt = `
+      System Rules: ${SYSTEM_INSTRUCTION}
+      
+      Analyze and map ALL of these raw input rows into the target JSON structure:
+      ${JSON.stringify(batch)}
+      `;
+
+      try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+        
+        // Safety cleaner
+        responseText = responseText.replace(/```json/gi, '').replace(/```/gi, '').trim();
+        const processedBatch = JSON.parse(responseText);
+        
+        // Stitch the successful batch into our final array
+        finalProcessedRecords = finalProcessedRecords.concat(processedBatch);
+        
+      } catch (batchError) {
+        console.error(`Syntax Error in batch ${currentBatchNumber}:`, batchError.message);
+        
+        // Smart Fallback: If Gemini messes up the JSON for just this batch, 
+        // we safely flag these specific 5 rows as skipped rather than crashing the whole app.
+        const failedBatchFallback = batch.map(row => ({
+          skipped: true,
+          data: { 
+            name: row.name || "Unknown",
+            email: row.email || "",
+            mobile_without_country_code: row.phone || "",
+            crm_note: "AI JSON syntax extraction failed for this specific row block.",
+            crm_status: "DID_NOT_CONNECT"
+          }
+        }));
+        
+        finalProcessedRecords = finalProcessedRecords.concat(failedBatchFallback);
+      }
+    }
+
+    // 3. Calculate final metrics for the frontend UI
+    const totalImported = finalProcessedRecords.filter(r => !r.skipped).length;
+    const totalSkipped = finalProcessedRecords.filter(r => r.skipped).length;
+
+    console.log("Batch processing complete. Sending data to frontend.");
+
+    // 4. Send the stitched, finalized payload back to Vercel
     res.json({
       success: true,
       metrics: {
-        totalRecords: processedRecords.length,
+        totalRecords: finalProcessedRecords.length,
         totalImported,
         totalSkipped
       },
-      records: processedRecords
+      records: finalProcessedRecords
     });
 
   } catch (error) {
-    console.error("Processing Error:", error);
+    console.error("Fatal Processing Error:", error);
     res.status(500).json({ error: 'Failed to process rows via AI extraction. Check backend terminal for details.' });
   }
 });
